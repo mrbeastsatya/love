@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Coffee Date Form</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Pacifico&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(45deg, #ff6b6b, #ffc3a0, #ff77cc);
+      font-family: 'Arial', sans-serif;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .floating-emojis {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .floating-emoji {
+      position: absolute;
+      font-size: 2rem;
+      opacity: 0.3;
+      animation: float 12s linear infinite;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0.3;
+      }
+      100% {
+        transform: translateY(-10vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .form-container {
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      text-align: center;
+      z-index: 1;
+    }
+
+    .form-container h2 {
+      margin-bottom: 20px;
+      color: #333;
+      font-family: 'Dancing Script', cursive;
+    }
+
+    .form-container input,
+    .form-container button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-family: 'Dancing Script', cursive;
+    }
+
+    .gradient-button {
+      padding: 12px 24px;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.2rem;
+      color: white;
+      background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+    }
+
+    .gradient-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+      background: linear-gradient(45deg, #ff8e8e, #ff6b6b);
+    }
+
+    .gradient-button:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 10px rgba(255, 107, 107, 0.3);
+    }
+
+    .love-message {
+      margin-top: 30px;
+      font-size: 2rem;
+      font-weight: bold;
+      color: white;
+      text-shadow: 2px 2px 6px #0000007a;
+      font-family: 'Pacifico', cursive;
+      text-align: center;
+    }
+
+    .bottom-buttons {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 20px;
+      z-index: 100;
+    }
+
+    .form-container textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-family:  cursive;
+  resize: none;
+}
+
+  </style>
+</head>
+
+<body>
+
+  <!-- Floating Emojis -->
+  <div class="floating-emojis"></div>
+
+  <!-- Coffee Date Form -->
+  <div class="form-container">
+    <h2>Fix Our Coffee Date ☕</h2>
+ <a href="https://docs.google.com/forms/d/e/1FAIpQLSerjSL2zuwZc0gKvFRPRcrpWZQIOXcVOqnOiRj4l8eGMOLiIw/viewform?usp=header" target="_blank">
+  <button class="gradient-button" style="width: 100%; padding: 18px; font-size: 1.5rem;">
+    Fix the Coffee Date ☕❤️
+  </button>
+</a>
+
+
+  </div>
+
+  <!-- Love Message -->
+  <div class="love-message">I love you baby ❤️😘🥰</div>
+
+  <!-- Bottom Navigation Buttons -->
+  <div class="bottom-buttons">
+    <button class="gradient-button" onclick="window.location.href='index.html'">Go to First Page</button>
+    <button class="gradient-button" onclick="history.back()">Previous Page</button>
+  </div>
+
+  <!-- JavaScript for Floating Emojis -->
+  <script>
+    const emojis = ['❤️', '💕', '💖', '💗', '💓', '💝', '💘', '🌹', '✨', '💫'];
+
+    function createEmoji() {
+      const emoji = document.createElement('div');
+      emoji.className = 'floating-emoji';
+      emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      emoji.style.left = Math.random() * 100 + 'vw';
+      emoji.style.fontSize = (Math.random() * 20 + 16) + 'px';
+      emoji.style.animationDuration = (Math.random() * 5 + 10) + 's';
+      document.querySelector('.floating-emojis').appendChild(emoji);
+
+      setTimeout(() => {
+        emoji.remove();
+      }, 15000);
+    }
+
+    setInterval(createEmoji, 800);
+    for (let i = 0; i < 10; i++) {
+      createEmoji();
+    }
+  </script>
+
+</body>
+</html>

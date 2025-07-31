@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Memories</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <style>
+        .floating-emojis {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .emoji {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.2;
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-100vh) rotate(360deg); }
+        }
+
+        .stories-container {
+            width: 100%;
+            height: 90vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .story {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.5s ease;
+            transform: translateX(100%);
+        }
+
+        .story.active {
+            transform: translateX(0);
+        }
+
+        .story img {
+            max-height: 70vh;
+            max-width: 90%;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .story-caption {
+            margin-top: 20px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .navigation-arrows {
+            position: fixed;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            transform: translateY(-50%);
+            z-index: 100;
+        }
+
+        .nav-arrow {
+            font-size: 2rem;
+            color: white;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .nav-arrow:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            padding: 0 10px;
+            gap: 5px;
+            z-index: 100;
+        }
+
+        .progress-segment {
+            flex: 1;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+        }
+
+        .progress-segment.active {
+            background: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-emojis">
+        <!-- Emojis will be added dynamically via JavaScript -->
+    </div>
+
+    <div class="progress-bar">
+        <!-- Progress segments will be added dynamically -->
+    </div>
+
+    <div class="stories-container">
+        <div class="story active">
+           
+        </div>
+        <!-- Add more stories here -->
+    </div>
+
+    <div class="navigation-arrows">
+        <div class="nav-arrow" onclick="previousStory()">❮</div>
+        <div class="nav-arrow" onclick="nextStory()">❯</div>
+    </div>
+
+    <div class="bottom-buttons">
+        <button class="gradient-button" onclick="window.location.href='index.html'">Back to Home</button>
+        <button class="gradient-button" onclick="window.location.href='letter.html'">Share Love</button>
+    </div>
+
+    <style>
+        .bottom-buttons {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 100;
+        }
+
+        .gradient-button {
+            padding: 12px 24px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.2rem;
+            color: white;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .gradient-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+            background: linear-gradient(45deg, #ff8e8e, #ff6b6b);
+        }
+
+        .gradient-button:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 10px rgba(255, 107, 107, 0.3);
+        }
+    </style>
+
+    <script>
+        // Add floating emojis
+        const emojis = ['❤️', '💕', '💖', '💗', '💓', '💝', '💘', '💞'];
+        const emojiContainer = document.querySelector('.floating-emojis');
+        
+        for (let i = 0; i < 20; i++) {
+            const emoji = document.createElement('div');
+            emoji.className = 'emoji';
+            emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            emoji.style.left = `${Math.random() * 100}%`;
+            emoji.style.animationDelay = `${Math.random() * 20}s`;
+            emojiContainer.appendChild(emoji);
+        }
+
+        // Story Navigation
+        let currentStory = 0;
+        const stories = [
+             { img: 'images/1.jpg', caption: 'Our First college picture together❤️' },
+             { img: 'images/2.jpg', caption: 'Ice-Cream Treat ❤️' },
+             { img: 'images/3.jpg', caption: 'First Lunch together after the college ❤️' }, 
+             { img: 'images/4.jpg', caption: 'Celebrating your Birth-Day❤️' },
+             { img: 'images/5.jpg', caption: 'At your college Traditional Day❤️' },
+             { img: 'images/6.jpg', caption: 'E=mc²❤️😉' },
+             { img: 'images/7.jpg', caption: 'In your College before we caught❤️'},
+             { img: 'images/8.jpg', caption: 'Tried out something new❤️😉'},
+             { img: 'images/9.JPG', caption: 'Ganpati Darshan❤️'},
+             { img: 'images/11.JPG', caption: '❤️'},
+             { img: 'images/13.jpg', caption: 'Shopping together in Zudio❤️🛍'},    
+             { img: 'images/12.jpg', caption: 'In your college Lab❤️'},
+             { img: 'images/14.jpg', caption: 'celebrating Your 18th Birthday 🎂❤️'},
+             { img: 'images/15.jpg', caption: 'First time visiting Iscon temple together 🙏❤️'},
+             { img: 'images/16.JPG', caption: 'Our First Harbhole date 😋😂🫂' },
+            { img: 'images/17.jpg', caption: 'Ye Pushpa bas Shrivalli ke samane jukega ❤️' },
+            { img: 'images/18.JPG', caption: 'Flexing with my Shrivalli 😌😘❤️'},
+            { img: 'images/19.jpg', caption: 'Our First solo trip❤️🛵'},
+            
+           
+            
+        ];
+
+        // Create stories and progress bar
+        const storiesContainer = document.querySelector('.stories-container');
+        const progressBar = document.querySelector('.progress-bar');
+
+        stories.forEach((story, index) => {
+            // Create story element
+            const storyElement = document.createElement('div');
+            storyElement.className = `story ${index === 0 ? 'active' : ''}`;
+            storyElement.innerHTML = `
+                <img src="${story.img}" alt="Memory ${index + 1}">
+                <p class="story-caption">${story.caption}</p>
+            `;
+            storiesContainer.appendChild(storyElement);
+
+            // Create progress segment
+            const progressSegment = document.createElement('div');
+            progressSegment.className = `progress-segment ${index === 0 ? 'active' : ''}`;
+            progressBar.appendChild(progressSegment);
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'Space') {
+                nextStory();
+            } else if (e.key === 'ArrowLeft') {
+                previousStory();
+            }
+        });
+        function showStory(index) {
+            const storyElements = document.querySelectorAll('.story');
+            const progressSegments = document.querySelectorAll('.progress-segment');
+
+            storyElements.forEach(story => story.classList.remove('active'));
+            progressSegments.forEach(segment => segment.classList.remove('active'));
+
+            storyElements[index].classList.add('active');
+            progressSegments[index].classList.add('active');
+        }
+
+        function nextStory() {
+            if (currentStory < stories.length - 1) {
+                currentStory++;
+                showStory(currentStory);
+            }
+        }
+
+        function previousStory() {
+            if (currentStory > 0) {
+                currentStory--;
+                showStory(currentStory);
+            }
+        }
+
+        // Touch swipe functionality
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const swipeLength = touchEndX - touchStartX;
+
+            if (Math.abs(swipeLength) > swipeThreshold) {
+                if (swipeLength > 0) {
+                    previousStory();
+                } else {
+                    nextStory();
+                }
+            }
+        }
+    </script>
+</body>
+</html>

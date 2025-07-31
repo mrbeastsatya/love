@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Website</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Floating Emojis will appear in the background -->
+    <div class="emoji-container"></div>
+
+    <div class="container">
+        <div class="love-box">
+            <h1>HAPPY GIRLFRIEND DAY BABY ❤️</h1>
+            <div class="emojis">
+                🌹 💖 💝 💕 💗
+            </div>
+        </div>
+        
+        <div class="notes-container">
+            <div class="note-card">
+                <textarea placeholder="Write your love note here...">Falling for you every single day. Happy Girlfriend Day, my love 💕</textarea>
+            </div>
+            <div class="note-card">
+                <textarea placeholder="Express your feelings...">you are not just my girlfriend, you are  my peace, my person, my everything. ❤️ </textarea>
+            </div>
+            <div class="note-card">
+                <textarea placeholder="Share your thoughts...">my heart is belong to you my queen❤️ </textarea>
+            </div>
+        </div>
+        <button class="memories-btn" onclick="window.location.href='memories.html'">Our Memories</button>
+    </div>
+
+    <script>
+        const emojis = ['❤️', '💕', '💖', '💗', '💓', '💝', '💘', '🌹', '✨', '💫'];
+
+        function createEmoji() {
+            const emoji = document.createElement('div');
+            emoji.className = 'floating-emoji';
+            emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            emoji.style.left = Math.random() * 100 + 'vw';
+            emoji.style.animationDuration = (Math.random() * 8 + 6) + 's';
+            document.body.querySelector('.emoji-container').appendChild(emoji);
+
+            emoji.addEventListener('animationend', () => {
+                emoji.remove();
+            });
+        }
+
+        setInterval(createEmoji, 1500);
+
+        for(let i = 0; i < 8; i++) {
+            createEmoji();
+        }
+    </script>
+</body>
+</html>
